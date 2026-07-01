@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { artworks } from "@/lib/artwork";
@@ -10,10 +11,13 @@ export default function Hero() {
   return (
     <section className="relative flex min-h-[calc(100vh-65px)] items-center overflow-hidden px-6">
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <img
+        <Image
           src={bg.image}
           alt=""
-          className="h-full w-full scale-110 object-cover opacity-30 blur-2xl"
+          fill
+          priority
+          sizes="100vw"
+          className="scale-110 object-cover opacity-30 blur-2xl"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/70 to-neutral-950/30" />
       </div>
@@ -45,8 +49,8 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="mt-6 max-w-lg text-neutral-400"
         >
-          A collection of paintings, drawings, and digital pieces. New work
-          added regularly — prints and originals available soon.
+          A collection of linocut prints and design work. New work added
+          regularly — prints and originals available soon.
         </motion.p>
 
         <motion.div

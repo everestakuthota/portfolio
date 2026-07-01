@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import type { Artwork } from "@/lib/artwork";
 
@@ -15,11 +16,13 @@ export default function GalleryGrid({ artworks }: { artworks: Artwork[] }) {
           transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
           className="group cursor-pointer"
         >
-          <div className="overflow-hidden rounded-lg bg-neutral-900">
-            <img
+          <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-neutral-900">
+            <Image
               src={piece.image}
               alt={piece.title}
-              className="aspect-[3/4] w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+              fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
             />
           </div>
           <figcaption className="mt-3 flex items-baseline justify-between text-sm">
