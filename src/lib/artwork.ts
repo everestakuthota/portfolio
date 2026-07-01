@@ -6,10 +6,11 @@ export type Artwork = {
   image: string;
   width: number;
   height: number;
+  description: string;
 };
 
-// Edit title/year/medium here as needed; drop new images into
-// /public/artwork and add an entry to swap in more work.
+// Edit title/year/medium/description here as needed; drop new images
+// into /public/artwork and add an entry to swap in more work.
 export const artworks: Artwork[] = [
   {
     slug: "longestt-cover",
@@ -19,6 +20,7 @@ export const artworks: Artwork[] = [
     image: "/artwork/longestt-cover.jpg",
     width: 2400,
     height: 2400,
+    description: "",
   },
   {
     slug: "puppet",
@@ -28,6 +30,7 @@ export const artworks: Artwork[] = [
     image: "/artwork/puppet.jpg",
     width: 1806,
     height: 2400,
+    description: "",
   },
   {
     slug: "sunny",
@@ -35,7 +38,8 @@ export const artworks: Artwork[] = [
     year: "2026",
     medium: "Linocut print",
     image: "/artwork/sunny.jpg",
-    width: 1829,
+    width: 1828,
     height: 2400,
+    description: "",
   },
 ];
