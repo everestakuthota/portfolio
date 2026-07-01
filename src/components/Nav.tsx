@@ -15,7 +15,7 @@ export default function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-800 bg-neutral-950/80 backdrop-blur">
       <nav className="flex items-center justify-between px-6 py-4">
-        <Link href="/" className="flex items-center gap-3">
+        <Link href="/" aria-label="Everest — home">
           <Image
             src="/brand/everest-eyes.png"
             alt=""
@@ -24,9 +24,6 @@ export default function Nav() {
             className="h-5 w-auto"
             priority
           />
-          <span className="font-[family-name:var(--font-fraunces)] italic text-lg tracking-tight">
-            Everest
-          </span>
         </Link>
         <ul className="flex items-center gap-6 text-sm">
           {links.map((link) => (
