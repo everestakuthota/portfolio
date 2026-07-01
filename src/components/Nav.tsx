@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -14,8 +15,18 @@ export default function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-neutral-800 bg-neutral-950/80 backdrop-blur">
       <nav className="flex items-center justify-between px-6 py-4">
-        <Link href="/" className="font-[family-name:var(--font-fraunces)] italic text-lg tracking-tight">
-          studio
+        <Link href="/" className="flex items-center gap-3">
+          <Image
+            src="/brand/everest-eyes.png"
+            alt=""
+            width={900}
+            height={106}
+            className="h-5 w-auto"
+            priority
+          />
+          <span className="font-[family-name:var(--font-fraunces)] italic text-lg tracking-tight">
+            Everest
+          </span>
         </Link>
         <ul className="flex items-center gap-6 text-sm">
           {links.map((link) => (

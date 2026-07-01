@@ -3,7 +3,7 @@ import GalleryGrid from "@/components/GalleryGrid";
 import { artworks } from "@/lib/artwork";
 
 export const metadata: Metadata = {
-  title: "Gallery — Studio",
+  title: "Gallery — Everest",
 };
 
 export default function GalleryPage() {
