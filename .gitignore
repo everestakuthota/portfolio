@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local sandbox dev-server workaround, not needed for deploy
+/dev-launcher.mjs
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

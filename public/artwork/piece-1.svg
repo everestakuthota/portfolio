@@ -1,0 +1,16 @@
+<svg viewBox="0 0 900 1100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g0" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff6b6b" />
+      <stop offset="100%" stop-color="#590d22" />
+    </linearGradient>
+    <filter id="blur0"><feGaussianBlur stdDeviation="60" /></filter>
+  </defs>
+  <rect width="900" height="1100" fill="#0a0a0a" />
+  <rect width="900" height="1100" fill="url(#g0)" opacity="0.25" />
+  <g filter="url(#blur0)">
+    <circle cx="372" cy="619" r="323" fill="#ff6b6b" opacity="0.55" />
+    <circle cx="383" cy="565" r="287" fill="#c9184a" opacity="0.55" />
+    <circle cx="394" cy="511" r="250" fill="#590d22" opacity="0.55" />
+  </g>
+</svg>
