@@ -7,15 +7,15 @@ import type { Artwork } from "@/lib/artwork";
 
 export default function FeaturedStrip({ pieces }: { pieces: Artwork[] }) {
   return (
-    <section className="border-t border-neutral-800 px-6 py-20">
+    <section className="border-t border-white/15 px-6 py-20">
       <div className="mx-auto max-w-6xl">
         <div className="flex items-baseline justify-between">
-          <h2 className="font-[family-name:var(--font-fraunces)] text-3xl italic">
+          <h2 className="font-[family-name:var(--font-fraunces)] text-3xl italic text-white">
             Selected work
           </h2>
           <Link
             href="/gallery"
-            className="text-sm text-neutral-400 transition-colors hover:text-neutral-100"
+            className="text-sm text-white/70 transition-colors hover:text-white"
           >
             View all →
           </Link>
@@ -32,7 +32,7 @@ export default function FeaturedStrip({ pieces }: { pieces: Artwork[] }) {
             >
               <Link href="/gallery" className="group block">
                 <div
-                  className="relative overflow-hidden rounded-lg bg-neutral-900"
+                  className="relative overflow-hidden rounded-lg bg-black/20"
                   style={{ aspectRatio: `${piece.width} / ${piece.height}` }}
                 >
                   <Image
@@ -43,8 +43,8 @@ export default function FeaturedStrip({ pieces }: { pieces: Artwork[] }) {
                     className="object-contain transition-transform duration-500 ease-out group-hover:scale-105"
                   />
                 </div>
-                <p className="mt-2 text-sm text-neutral-300">{piece.title}</p>
-                <p className="text-xs text-neutral-500">{piece.medium}</p>
+                <p className="mt-2 text-sm text-white/90">{piece.title}</p>
+                <p className="text-xs text-white/60">{piece.medium}</p>
               </Link>
             </motion.div>
           ))}

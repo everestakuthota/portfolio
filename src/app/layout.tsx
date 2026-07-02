@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import Nav from "@/components/Nav";
 import "./globals.css";
@@ -39,14 +38,12 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-neutral-950 text-neutral-100">
         <Nav />
         <main className="flex-1">{children}</main>
-        <footer className="flex items-center justify-between border-t border-neutral-800 px-6 py-8 text-sm text-neutral-500">
+        <footer className="flex items-center justify-between border-t border-white/10 px-6 py-8 text-sm text-neutral-400">
           <div className="flex items-center gap-3">
-            <Image
-              src="/brand/everest-eyes.png"
+            <img
+              src="/brand/everest-eyes-bw.svg"
               alt=""
-              width={900}
-              height={106}
-              className="h-3 w-auto opacity-70"
+              className="h-3 w-auto opacity-80"
             />
             <span>
               Everest &copy; {new Date().getFullYear()}

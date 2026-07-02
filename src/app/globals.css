@@ -16,3 +16,9 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+/* Home page: match the hero gradient's end color so the footer and
+   overscroll regions never show black. */
+body.home-bg {
+  background: #241a3d;
+}
