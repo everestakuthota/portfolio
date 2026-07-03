@@ -1,10 +1,8 @@
 import HomeHero from "@/components/HomeHero";
 import FeaturedStrip from "@/components/FeaturedStrip";
-import { artworks, featured } from "@/lib/artwork";
+import { prints } from "@/lib/artwork";
 
 export default function Home() {
-  const pieces = [artworks[0], artworks[1], featured[0], artworks[3]];
-
   return (
     <div
       style={{
@@ -13,7 +11,7 @@ export default function Home() {
       }}
     >
       <HomeHero />
-      <FeaturedStrip pieces={pieces} />
+      <FeaturedStrip pieces={prints} />
     </div>
   );
 }

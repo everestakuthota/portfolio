@@ -3,22 +3,29 @@
 :root {
   --background: #0a0a0a;
   --foreground: #ededed;
+  /* BD Caramel Variable, served from Adobe Fonts (see layout.tsx) */
+  --font-caramel: "bd-caramel-variable", Georgia, serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-caramel);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  font-family: var(--font-caramel);
 }
 
 /* Home page: match the hero gradient's end color so the footer and
    overscroll regions never show black. */
 body.home-bg {
   background: #241a3d;
+}
+
+/* Home page has no section dividers. */
+body.home-bg footer {
+  border-color: transparent;
 }

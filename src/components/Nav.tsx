@@ -7,6 +7,7 @@ import NavGlyph from "@/components/NavGlyph";
 const links = [
   { href: "/", label: "Home" },
   { href: "/gallery", label: "Gallery" },
+  { href: "/prints", label: "Available Prints" },
 ];
 
 export default function Nav() {
@@ -21,7 +22,7 @@ export default function Nav() {
       <nav className="flex items-center justify-between px-6 py-4">
         <Link href="/" aria-label="Everest — home">
           <img
-            src="/brand/everest-eyes-bw.svg"
+            src="/brand/everest-eyes-bw-v2.svg"
             alt=""
             className="h-5 w-auto"
           />

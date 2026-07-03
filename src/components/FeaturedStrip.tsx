@@ -7,19 +7,16 @@ import type { Artwork } from "@/lib/artwork";
 
 export default function FeaturedStrip({ pieces }: { pieces: Artwork[] }) {
   return (
-    <section className="border-t border-white/15 px-6 py-20">
+    <section className="px-6 py-20">
       <div className="mx-auto max-w-6xl">
-        <div className="flex items-baseline justify-between">
-          <h2 className="font-[family-name:var(--font-fraunces)] text-3xl italic text-white">
-            Selected work
-          </h2>
+        <h2 className="text-3xl italic text-white">
           <Link
-            href="/gallery"
-            className="text-sm text-white/70 transition-colors hover:text-white"
+            href="/prints"
+            className="transition-opacity hover:opacity-70"
           >
-            View all →
+            Available prints
           </Link>
-        </div>
+        </h2>
 
         <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4">
           {pieces.map((piece, i) => (
@@ -30,7 +27,7 @@ export default function FeaturedStrip({ pieces }: { pieces: Artwork[] }) {
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
             >
-              <Link href="/gallery" className="group block">
+              <Link href="/prints" className="group block">
                 <div
                   className="relative overflow-hidden rounded-lg bg-black/20"
                   style={{ aspectRatio: `${piece.width} / ${piece.height}` }}

@@ -1,6 +1,11 @@
 "use client";
 
-import { motion, type MotionValue } from "framer-motion";
+import { useEffect, useRef } from "react";
+import {
+  useMotionValue,
+  useMotionValueEvent,
+  type MotionValue,
+} from "framer-motion";
 
 // Paths from brand logo (art/brandlogo.svg), viewBox trimmed to content.
 const R_OUTLINE =
@@ -32,15 +37,115 @@ const GRAY = "#B4BDC8";
 const BLUE = "#177FC1";
 const ORANGE = "#D26127";
 
+// Sampled top/bottom contours of an eye outline, binned by x.
+type Contours = { xs: number[]; top: number[]; bot: number[] };
+
+const BINS = 64;
+const SAMPLES = 800;
+
+function sampleContours(pathD: string): Contours {
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns, "svg");
+  svg.style.position = "absolute";
+  svg.style.width = "0";
+  svg.style.height = "0";
+  const path = document.createElementNS(ns, "path");
+  path.setAttribute("d", pathD);
+  svg.appendChild(path);
+  document.body.appendChild(svg);
+
+  const len = path.getTotalLength();
+  const pts: { x: number; y: number }[] = [];
+  for (let i = 0; i <= SAMPLES; i++) {
+    const p = path.getPointAtLength((len * i) / SAMPLES);
+    pts.push({ x: p.x, y: p.y });
+  }
+  svg.remove();
+
+  const minX = Math.min(...pts.map((p) => p.x));
+  const maxX = Math.max(...pts.map((p) => p.x));
+  const step = (maxX - minX) / BINS;
+
+  const top: (number | null)[] = Array(BINS + 1).fill(null);
+  const bot: (number | null)[] = Array(BINS + 1).fill(null);
+  for (const p of pts) {
+    const i = Math.min(BINS, Math.max(0, Math.round((p.x - minX) / step)));
+    if (top[i] === null || p.y < top[i]!) top[i] = p.y;
+    if (bot[i] === null || p.y > bot[i]!) bot[i] = p.y;
+  }
+  // Fill any empty bins from their nearest filled neighbors.
+  for (const arr of [top, bot]) {
+    for (let i = 0; i <= BINS; i++) {
+      if (arr[i] === null) {
+        let l = i - 1;
+        while (l >= 0 && arr[l] === null) l--;
+        let r = i + 1;
+        while (r <= BINS && arr[r] === null) r++;
+        const lv = l >= 0 ? arr[l]! : arr[r]!;
+        const rv = r <= BINS ? arr[r]! : arr[l]!;
+        arr[i] = (lv + rv) / 2;
+      }
+    }
+  }
+  // Light smoothing so the lid edge doesn't pick up sampling jaggies.
+  const smooth = (arr: number[]) =>
+    arr.map((v, i, a) =>
+      i === 0 || i === a.length - 1 ? v : (a[i - 1] + v + a[i + 1]) / 3
+    );
+
+  return {
+    xs: Array.from({ length: BINS + 1 }, (_, i) => minX + i * step),
+    top: smooth(top as number[]),
+    bot: smooth(bot as number[]),
+  };
+}
+
+// Lid shape at progress t: its lower edge is the eye's top contour at t=0,
+// morphing point-by-point into the bottom contour at t=1. The region above
+// the edge is filled and clipped to the eye outline.
+function lidPath(c: Contours, t: number): string {
+  const pts = c.xs.map(
+    (x, i) =>
+      `${x.toFixed(1)},${(c.top[i] + (c.bot[i] - c.top[i]) * t).toFixed(1)}`
+  );
+  const first = c.xs[0].toFixed(1);
+  const last = c.xs[c.xs.length - 1].toFixed(1);
+  return `M${first},455 L${pts.join(" L")} L${last},455 Z`;
+}
+
 export default function AnimatedEyes({
-  lidY,
+  lidT,
   className,
 }: {
-  // 0 = eyes open (lid parked above), 130 = lid fully down. Pass null to
-  // skip the animation entirely (reduced motion).
-  lidY: MotionValue<number> | null;
+  // Closure progress: 0 = eyes open, 1 = fully shut. Pass null to skip the
+  // animation entirely (reduced motion).
+  lidT: MotionValue<number> | null;
   className?: string;
 }) {
+  const fallback = useMotionValue(0);
+  const t = lidT ?? fallback;
+  const contours = useRef<{ r: Contours; l: Contours } | null>(null);
+  const lidR = useRef<SVGPathElement>(null);
+  const lidL = useRef<SVGPathElement>(null);
+
+  const applyLids = (v: number) => {
+    if (!contours.current) return;
+    lidR.current?.setAttribute("d", lidPath(contours.current.r, v));
+    lidL.current?.setAttribute("d", lidPath(contours.current.l, v));
+  };
+
+  useEffect(() => {
+    if (!lidT) return;
+    contours.current = {
+      r: sampleContours(R_OUTLINE),
+      l: sampleContours(L_OUTLINE),
+    };
+    applyLids(lidT.get());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lidT]);
+
+  useMotionValueEvent(t, "change", applyLids);
+
   return (
     <svg
       viewBox="91 472 1014 134"
@@ -50,15 +155,11 @@ export default function AnimatedEyes({
       aria-label="Everest"
     >
       <defs>
-        <clipPath id="eye-clip-r">
+        <clipPath id="lid-clip-r">
           <path d={R_OUTLINE} />
-          <path d={R_CORNER_OUT} />
-          <path d={R_CORNER_IN} />
         </clipPath>
-        <clipPath id="eye-clip-l">
+        <clipPath id="lid-clip-l">
           <path d={L_OUTLINE} />
-          <path d={L_CORNER_OUT} />
-          <path d={L_CORNER_IN} />
         </clipPath>
       </defs>
 
@@ -78,28 +179,15 @@ export default function AnimatedEyes({
       <path d={L_CORNER_OUT} fill={ORANGE} stroke={ORANGE} />
       <path d={L_CORNER_IN} fill={ORANGE} stroke={ORANGE} />
 
-      {/* top lids: black sheets sliding down, clipped to each eye's shape */}
-      {lidY && (
+      {/* top lids: lower edge morphs from the outline's top contour to its
+          bottom contour as t goes 0 -> 1, clipped to each eye outline */}
+      {lidT && (
         <>
-          <g clipPath="url(#eye-clip-r)">
-            <motion.rect
-              x="600"
-              y="342"
-              width="480"
-              height="135"
-              fill="#000"
-              style={{ y: lidY }}
-            />
+          <g clipPath="url(#lid-clip-r)">
+            <path ref={lidR} fill="#000" />
           </g>
-          <g clipPath="url(#eye-clip-l)">
-            <motion.rect
-              x="120"
-              y="342"
-              width="480"
-              height="135"
-              fill="#000"
-              style={{ y: lidY }}
-            />
+          <g clipPath="url(#lid-clip-l)">
+            <path ref={lidL} fill="#000" />
           </g>
         </>
       )}

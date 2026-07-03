@@ -1,23 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import Nav from "@/components/Nav";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-});
 
 export const metadata: Metadata = {
   title: "Everest — Artwork",
@@ -31,17 +14,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
-    >
+    <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col bg-neutral-950 text-neutral-100">
+        {/* BD Caramel Variable via Adobe Fonts (site-wide typeface) */}
+        <link
+          rel="stylesheet"
+          href="https://use.typekit.net/hko2cbt.css"
+          precedence="default"
+        />
         <Nav />
         <main className="flex-1">{children}</main>
         <footer className="flex items-center justify-between border-t border-white/10 px-6 py-8 text-sm text-neutral-400">
           <div className="flex items-center gap-3">
             <img
-              src="/brand/everest-eyes-bw.svg"
+              src="/brand/everest-eyes-bw-v2.svg"
               alt=""
               className="h-3 w-auto opacity-80"
             />

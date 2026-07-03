@@ -74,16 +74,48 @@ export const artworks: Artwork[] = [
   },
 ];
 
-// Pieces shown on the home page but not in the main gallery.
-export const featured: Artwork[] = [
+// Prints for sale — shown on /prints and the home page strip. Images are
+// the carved blocks, mirrored to read as pulled prints (see
+// scripts/prepare-prints.mjs). Titles are editable placeholders.
+export const prints: Artwork[] = [
   {
-    slug: "mellow",
-    title: "Mellow",
-    year: "2023",
-    medium: "Photography & digital collage (poster)",
-    image: "/artwork/mellow.jpg",
-    width: 1084,
-    height: 1470,
+    slug: "star",
+    title: "Star",
+    year: "2026",
+    medium: "Linocut print",
+    image: "/artwork/prints/star-v2.jpg",
+    width: 2075,
+    height: 2400,
+    description: "",
+  },
+  {
+    slug: "hand",
+    title: "Hand",
+    year: "2026",
+    medium: "Linocut print",
+    image: "/artwork/prints/hand-v2.jpg",
+    width: 2105,
+    height: 2400,
+    description: "",
+  },
+  {
+    slug: "face",
+    title: "Face",
+    year: "2026",
+    medium: "Linocut print",
+    image: "/artwork/prints/face-v2.jpg",
+    width: 2076,
+    height: 2400,
+    description: "",
+  },
+  {
+    slug: "puppet-print",
+    title: "Puppet",
+    year: "2026",
+    medium: "Linocut print",
+    image: "/artwork/prints/puppet-v2.jpg",
+    width: 1752,
+    height: 2400,
     description: "",
   },
 ];

@@ -1,29 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import {
-  AnimatePresence,
-  motion,
-  useMotionValueEvent,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 const links = [
   { href: "/", label: "Home" },
   { href: "/gallery", label: "Gallery" },
+  { href: "/prints", label: "Available Prints" },
 ];
 
 export default function NavGlyph() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(false);
   const reduceMotion = useReducedMotion();
-  const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [60, 360], [0, 1]);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-  useMotionValueEvent(scrollY, "change", (v) => setActive(v > 80));
+  // Manual scroll tracking with direct style writes — survives client-side
+  // navigation and never waits on an animation frame.
+  useEffect(() => {
+    if (reduceMotion) return;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setActive(y > 80);
+      if (buttonRef.current) {
+        buttonRef.current.style.opacity = String(
+          Math.min(1, Math.max(0, (y - 60) / 300))
+        );
+      }
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [reduceMotion]);
 
   useEffect(() => {
     if (!open) return;
@@ -38,10 +47,11 @@ export default function NavGlyph() {
 
   return (
     <>
-      <motion.button
+      <button
+        ref={buttonRef}
         aria-label="Open navigation"
         onClick={() => setOpen(true)}
-        style={reduceMotion ? undefined : { opacity }}
+        style={reduceMotion ? undefined : { opacity: 0 }}
         className={`fixed right-5 top-5 z-50 flex h-12 w-12 flex-col items-center justify-center gap-[5px] rounded-full border border-white/20 bg-neutral-950/70 shadow-lg backdrop-blur transition-transform hover:scale-105 ${
           interactive ? "" : "pointer-events-none"
         }`}
@@ -49,7 +59,7 @@ export default function NavGlyph() {
         <span className="h-[2px] w-5 rounded-full bg-neutral-100" />
         <span className="h-[2px] w-5 rounded-full bg-neutral-100" />
         <span className="h-[2px] w-5 rounded-full bg-neutral-100" />
-      </motion.button>
+      </button>
 
       <AnimatePresence>
         {open && (
@@ -70,7 +80,7 @@ export default function NavGlyph() {
             >
               <div className="mb-2 flex items-center justify-between">
                 <img
-                  src="/brand/everest-eyes-bw.svg"
+                  src="/brand/everest-eyes-bw-v2.svg"
                   alt="Everest"
                   className="h-4 w-auto"
                 />
