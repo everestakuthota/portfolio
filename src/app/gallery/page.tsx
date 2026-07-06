@@ -10,7 +10,7 @@ export default function GalleryPage() {
   return (
     <section className="px-6 py-16">
       <div className="mx-auto max-w-6xl">
-        <h1 className="text-4xl italic">
+        <h1 className="font-[family-name:var(--font-display)] text-5xl font-bold">
           Gallery
         </h1>
         <p className="mt-3 max-w-lg text-neutral-400">

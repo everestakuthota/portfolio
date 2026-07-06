@@ -3,20 +3,23 @@
 :root {
   --background: #0a0a0a;
   --foreground: #ededed;
-  /* BD Caramel Variable, served from Adobe Fonts (see layout.tsx) */
-  --font-caramel: "bd-caramel-variable", Georgia, serif;
+  /* Adobe Fonts kit (see layout.tsx). Display: decorative brush script for
+     headings only. Body: Pilot, the kit's readable text face, for
+     paragraphs, captions, nav, and UI. */
+  --font-display: "callifont-daynote-brush", "Brush Script MT", cursive;
+  --font-body: "pilot", ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-caramel);
+  --font-sans: var(--font-body);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-caramel);
+  font-family: var(--font-body);
 }
 
 /* Home page: match the hero gradient's end color so the footer and

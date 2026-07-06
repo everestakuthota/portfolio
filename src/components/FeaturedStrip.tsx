@@ -9,7 +9,7 @@ export default function FeaturedStrip({ pieces }: { pieces: Artwork[] }) {
   return (
     <section className="px-6 py-20">
       <div className="mx-auto max-w-6xl">
-        <h2 className="text-3xl italic text-white">
+        <h2 className="font-[family-name:var(--font-display)] text-4xl font-bold text-white">
           <Link
             href="/prints"
             className="transition-opacity hover:opacity-70"

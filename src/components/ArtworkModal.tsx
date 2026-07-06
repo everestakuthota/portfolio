@@ -61,7 +61,7 @@ export default function ArtworkModal({
             </div>
 
             <div className="flex flex-col pt-1">
-              <h2 className="pr-6 text-2xl italic">
+              <h2 className="pr-6 font-[family-name:var(--font-display)] text-3xl font-bold">
                 {artwork.title}
               </h2>
               <p className="mt-1 text-sm text-neutral-500">
